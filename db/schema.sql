@@ -1,0 +1,15 @@
+DROP DATABASE IF EXISTS todos;
+CREATE DATABASE todos;
+
+USE todos;
+
+DROP TABLE IF EXISTS items;
+
+CREATE TABLE items (
+  id INTEGER UNIQUE AUTO_INCREMENT,
+  description VARCHAR(500) NOT NULL DEFAULT '',
+  completed TINYINT NOT NULL DEFAULT 0,
+  createdAt DATE,
+  updatedAt DATE,
+  PRIMARY KEY (id)
+);
