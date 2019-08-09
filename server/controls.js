@@ -45,9 +45,21 @@ module.exports = {
         res.sendStatus(500)
       })
   },
+  incompleteTodo: (req, res) => {
+    return Item.update({ completed: false },
+      { where: { id: req.params.id } })
+      .then(data => {
+        res.send(data)
+      })
+      .catch(err => {
+        console.log('error incompleting todo: ', err)
+        res.sendStatus(500)
+      })
+  },
   createTodo: (req, res) => {
     return Item.create({
-      description: req.body.description
+      description: req.body.description,
+      color: req.body.color
     })
       .then(data => {
         res.send(data)
@@ -69,6 +81,18 @@ module.exports = {
       })
       .catch(err => {
         console.log('error occurred deleting todo: ', err)
+        res.sendStatus(500)
+      })
+  },
+  deleteAllTodos: (req, res) => {
+    return Item.destroy({
+      where: {}
+    })
+      .then(data => {
+        res.send(`${data} todos deleted.`)
+      })
+      .catch(err => {
+        console.log('error deleting all todos: ', err)
         res.sendStatus(500)
       })
   }

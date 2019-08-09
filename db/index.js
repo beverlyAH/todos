@@ -1,9 +1,12 @@
 const mysql = require('mysql')
-const { dbUri } = require('../secrets.js')
 const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize('todos', 'root', '', {
-  host: 'localhost',
+let db = process.env.DB_URI || 'localhost'
+let DB_USER = process.env.DB_USER || 'root'
+let DB_PASS = process.env.DB_PASS || ''
+
+const sequelize = new Sequelize('todos', DB_USER, DB_PASS, {
+  host: db,
   dialect: 'mysql'
 })
 
@@ -16,8 +19,6 @@ sequelize
     console.log('error occurred connecting to database!')
   })
 
-  const Model = sequelize.Model
-
 const Item = sequelize.define('item', {
   id: {
     type: Sequelize.INTEGER,
@@ -25,6 +26,10 @@ const Item = sequelize.define('item', {
     autoIncrement: true
   },
   description: Sequelize.STRING,
+  color: {
+    type: Sequelize.STRING,
+    defaultValue: '#94E89E'
+  },
   completed: {
     type: Sequelize.BOOLEAN,
     defaultValue: false

@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS items;
 
 CREATE TABLE items (
   id INTEGER UNIQUE AUTO_INCREMENT,
-  description VARCHAR(500) NOT NULL DEFAULT '',
+  description VARCHAR(500),
+  color VARCHAR(10) NOT NULL DEFAULT 'green',
   completed TINYINT NOT NULL DEFAULT 0,
   createdAt DATE,
   updatedAt DATE,

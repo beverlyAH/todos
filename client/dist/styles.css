@@ -1,0 +1,128 @@
+
+
+body {
+  background-color: #94E89E;
+  font-family: sans-serif;
+  height: 100vh;
+  background-image: radial-gradient(#ffffff 20%, transparent 20%),
+  radial-gradient(#ffffff 20%, transparent 20%);
+  background-position: 0 0, 50px 50px;
+  background-size: 100px 100px;
+}
+
+h2 {
+  width: auto;
+  font-family: Quicksand, sans-serif;
+  font-weight: bold;
+  background-color: white;
+  padding: 10px;
+  filter: drop-shadow(2px 2px 0.10rem rgba(0, 0, 0, 0.5));
+}
+
+#todo {
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  padding: 0px;
+}
+
+.wrapper {
+  border: 5px solid white;
+  width: 75%;
+  height: auto;
+  background-color: #A6F3F4;
+  padding: 10px;
+  position: relative;
+  margin-top: 25px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-bottom: 35px;
+  display: flex;
+}
+
+.todos {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  display: block
+}
+.item {
+  width: auto;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 5px solid #FFFFFF;
+}
+.item:hover {
+  /* filter: drop-shadow(0 0 0.25rem black); */
+  filter: drop-shadow(2px 2px 0.10rem rgba(0, 0, 0, 0.5));
+}
+
+.close {
+  font-size: 16pt;
+  color: #FFFFFF;
+  float: right;
+  clear: both;
+}
+.close:hover {
+  filter: drop-shadow(1px 1px 0.10rem black);
+}
+.close:active {
+  filter: drop-shadow(0px 0px 0.05rem black);
+}
+
+.check {
+  font-size: 16pt;
+  color: #FFFFFF;
+  float: right;
+  margin-right: 10px
+}
+.check:hover {
+  filter: drop-shadow(1px 1px 0.10rem black);
+}
+.check:active {
+  filter: drop-shadow(0px 0px 0.05rem black);
+}
+
+.completed {
+  font-size: 16pt;
+  color: #CF95DB;
+  float: right;
+  margin-right: 10px
+}
+
+.color_select {
+  margin-top: 5px
+}
+
+.input_wrapper {
+  width: 20rem;
+  display: inline-block;
+  margin: 25px auto auto auto;
+  filter: drop-shadow(2px 2px 0.10rem rgba(0, 0, 0, 0.5));
+}
+input[type=text] {
+  width: 20rem;
+  font-size: 14pt;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 0px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=submit] {
+  width: 20rem;
+  font-size: 16px;
+  font-family: Quicksand, sans-serif;
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 14px 20px;
+  margin-top: -4px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type=submit]:hover {
+  background-color: mintcream;
+}

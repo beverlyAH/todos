@@ -18,7 +18,7 @@ const headers = {
 app.use(parser.json())
 app.use(morgan('dev'))
 app.use(cors(headers))
-app.use(express.static(__dirname + '../client/dist'))
+app.use(express.static(path.join(__dirname, '/../client/dist')))
 
 app.use('/todos', routes)
 
