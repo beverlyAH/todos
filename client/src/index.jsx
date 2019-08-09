@@ -29,14 +29,12 @@ class Todo extends React.Component {
   
   handleSubmit(e) {
     e.preventDefault()
-    if(!this.state.input) {
-      return
-    }
-    this.addTodo(this.state.input, this.state.color, () => {
-      this.setState({input: ''}, () => {
+    if(this.state.input !== '') {
+      this.addTodo(this.state.input, this.state.color, () => {
         this.getTodos()
+        this.setState({input: ''})
       })
-    })
+    }
   }
 
   addTodo(description, color, callback) {
@@ -45,7 +43,9 @@ class Todo extends React.Component {
       color: color
     }
     axios.post('/todos/', todo)
-    .then(callback())
+    .then(results => {
+      callback()
+    })
     .catch(err => {
       console.log('error occurred submitting todo!')
     })
