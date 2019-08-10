@@ -118,6 +118,7 @@ p {
   display: inline-block;
   margin: auto auto auto auto;
   filter: drop-shadow(2px 2px 0.10rem rgba(0, 0, 0, 0.5));
+  clear: both;
 }
 
 /* input bar */
