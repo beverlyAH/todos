@@ -72,7 +72,6 @@ class Todo extends React.Component {
         let temp = completed[i]
         temp.completed = false
         completed.splice(i, 1)
-        console.log(temp)
         todos.push(temp)
         break
       }
