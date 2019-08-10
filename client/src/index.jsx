@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import { FiXCircle, FiPlusCircle, FiCheckCircle } from 'react-icons/fi'
 import { BlockPicker } from 'react-color'
+import Item from './components/Item.jsx'
+import ColorSelector from './components/ColorSelector.jsx'
+import InputForm from './components/InputForm.jsx'
 
 class Todo extends React.Component {
   constructor(props) {
@@ -11,12 +13,14 @@ class Todo extends React.Component {
       todos: [],
       completed: [],
       input: '',
-      color: '#ff8c70'
+      color: '#94E89E'
     }
     this.getTodos = this.getTodos.bind(this)
     this.addTodo = this.addTodo.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
     this.handleColorSelect = this.handleColorSelect.bind(this)
+    this.markTodoComplete = this.markTodoComplete.bind(this)
+    this.markTodoIncomplete = this.markTodoIncomplete.bind(this)
   }
 
   componentDidMount() {
@@ -43,12 +47,12 @@ class Todo extends React.Component {
       color: color
     }
     axios.post('/todos/', todo)
-    .then(results => {
-      callback()
-    })
-    .catch(err => {
-      console.log('error occurred submitting todo!')
-    })
+      .then(results => {
+        callback()
+      })
+      .catch(err => {
+        console.error('Could not submit todo.')
+      })
 
   }
 
@@ -58,15 +62,18 @@ class Todo extends React.Component {
         this.getTodos()
       })
       .catch(err => {
-        console.log('error marking todo complete')
+        console.error('Could not complete todo.')
       })
   }
 
   markTodoIncomplete(id) {
     axios.put(`/todos/incomplete/${id}`)
-      .then(this.getTodos())
+      .then(results => {
+
+        this.getTodos()
+      })
       .catch(err => {
-        console.log('error marking todo incomplete')
+        console.error('Could not revert todo.')
       })
   }
 
@@ -74,7 +81,7 @@ class Todo extends React.Component {
     axios.delete(`/todos/${id}`)
       .then(this.getTodos())
       .catch(err => {
-        console.log('error deleting todo')
+        console.error('Could not delete todo.')
       })
   }
 
@@ -94,51 +101,50 @@ class Todo extends React.Component {
         })
       })
       .catch(err => {
-        console.log('error occurred retrieving todos')
+        console.error('Could not retrieve todos.')
       })
   }
 
   render() {
     return (
       <div className="wrapper">
-
+    
         <div className="input_wrapper">
-          <input type="text" value={this.state.input}
-          placeholder="what do we need to do?"
-          onChange={this.handleChange.bind(this)} />
-
-          <input type="submit" value="add" onClick={this.handleSubmit.bind(this)} />
-
-          <BlockPicker className="color_select" onChange={this.handleColorSelect}
-          color={this.state.color} triangle="hide"
-          width="20rem"
-          colors={['#FF8C70', '#FFEF89', '#94E89E', '#A6F3F4', '#CF95DB']} />
+        <h1>let's do this</h1>
+          <InputForm 
+            input={this.state.input} 
+            submit={this.handleSubmit.bind(this)}
+            change={this.handleChange.bind(this)} />
+          <ColorSelector
+            currentColor={this.state.color}
+            change={this.handleColorSelect} />
         </div>
 
         <div className="todos">
 
           <h2>TO DO: </h2>
 
-          {this.state.todos && this.state.todos.map(item => {
-            return (
-              <ul className="item" key={item.id} style={{backgroundColor: item.color}}>
-              {item.description}
-              <FiXCircle className="close" onClick={()=>{this.deleteTodo(item.id)}} />
-              <FiCheckCircle className="check" onClick={()=>this.markTodoComplete(item.id)} />
-              </ul>
-              )
-          })}
+          { this.state.todos && this.state.todos.length !== 0 ? 
+              this.state.todos.map(item => {
+                return (
+                  <Item item={item} key={item.id}
+                  delete={this.deleteTodo} 
+                  complete={this.markTodoComplete}
+                  incomplete={this.markTodoIncomplete} />
+                )
+              })  :  <p>Nothing to do! Lucky you!</p> }
 
           <h2>COMPLETED: </h2>
 
-          {this.state.completed && this.state.completed.map(item => {
-            return (
-              <ul className="item" key={item.id} style={{backgroundColor: item.color}}>
-              {item.description}
-              <FiXCircle className="close" onClick={()=>{this.deleteTodo(item.id)}} />
-              <FiCheckCircle className="check" onClick={()=>this.markTodoIncomplete(item.id)} /></ul>
-            )
-            })}
+          { this.state.completed && this.state.completed.length !== 0 ?
+              this.state.completed.map(item => {
+                return (
+                  <Item item={item} key={item.id}
+                  delete={this.deleteTodo} 
+                  complete={this.markTodoComplete}
+                  incomplete={this.markTodoIncomplete} />
+                )
+              })  : <p>Nothing's done? Add some tasks to get started.</p> }
         </div>
 
       </div>

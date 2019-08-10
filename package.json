@@ -29,7 +29,8 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "build": "webpack -d --watch"
+    "dev-build": "webpack -d --watch",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
