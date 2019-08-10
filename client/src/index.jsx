@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
-import { BlockPicker } from 'react-color'
 import Item from './components/Item.jsx'
 import ColorSelector from './components/ColorSelector.jsx'
 import InputForm from './components/InputForm.jsx'
+import uuidv4 from 'uuid'
 
 class Todo extends React.Component {
   constructor(props) {
@@ -15,16 +14,11 @@ class Todo extends React.Component {
       input: '',
       color: '#94E89E'
     }
-    this.getTodos = this.getTodos.bind(this)
     this.addTodo = this.addTodo.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
     this.handleColorSelect = this.handleColorSelect.bind(this)
     this.markTodoComplete = this.markTodoComplete.bind(this)
     this.markTodoIncomplete = this.markTodoIncomplete.bind(this)
-  }
-
-  componentDidMount() {
-    this.getTodos()
   }
 
   handleChange(e) {
@@ -35,74 +29,83 @@ class Todo extends React.Component {
     e.preventDefault()
     if(this.state.input !== '') {
       this.addTodo(this.state.input, this.state.color, () => {
-        this.getTodos()
         this.setState({input: ''})
       })
     }
   }
 
   addTodo(description, color, callback) {
-    let todo = {
+    let item = {
+      id: uuidv4(),
       description: description,
-      color: color
+      color: color, 
+      completed: false
     }
-    axios.post('/todos/', todo)
-      .then(results => {
-        callback()
-      })
-      .catch(err => {
-        console.error('Could not submit todo.')
-      })
-
+    let todos = this.state.todos.slice()
+    todos.push(item)
+    this.setState({todos: todos})
+    callback()
   }
 
   markTodoComplete(id) {
-    axios.put(`/todos/complete/${id}`)
-      .then(results => {
-        this.getTodos()
-      })
-      .catch(err => {
-        console.error('Could not complete todo.')
-      })
+    let todos = this.state.todos.slice()
+    let completed = this.state.completed.slice()
+    for (let i = 0; i < todos.length; i++) {
+      if(todos[i].id === id) {
+        let temp = todos[i]
+        temp.completed = true
+        todos.splice(i, 1)
+        completed.push(temp)
+        break
+      }
+    }
+    this.setState({todos: todos}, () => {
+      this.setState({completed: completed})
+    })
   }
 
   markTodoIncomplete(id) {
-    axios.put(`/todos/incomplete/${id}`)
-      .then(results => {
-
-        this.getTodos()
-      })
-      .catch(err => {
-        console.error('Could not revert todo.')
-      })
+    let todos = this.state.todos.slice()
+    let completed = this.state.completed.slice()
+    for (let i = 0; i < completed.length; i++) {
+      if(completed[i].id === id) {
+        let temp = completed[i]
+        temp.completed = false
+        completed.splice(i, 1)
+        console.log(temp)
+        todos.push(temp)
+        break
+      }
+    }
+    this.setState({completed: completed}, () => {
+      this.setState({todos: todos})
+    })
   }
 
-  deleteTodo(id) {
-    axios.delete(`/todos/${id}`)
-      .then(this.getTodos())
-      .catch(err => {
-        console.error('Could not delete todo.')
-      })
+  deleteTodo(completed, id) {
+    if(completed) {
+      let completed = this.state.completed.slice()
+      for(let i = 0; i < completed.length; i++) {
+        if(completed[i].id === id) {
+          completed.splice(i, 1)
+          break
+        }
+      }
+      this.setState({completed: completed})
+    } else {
+      let todos = this.state.todos.slice()
+      for (let i = 0; i < todos.length; i++) {
+        if(todos[i].id === id) {
+          todos.splice(i, 1)
+          break
+        }
+      }
+      this.setState({todos: todos})
+    }
   }
 
   handleColorSelect(e) {
     this.setState({color: e.hex})
-  }
-
-  getTodos() {
-    axios.get('/todos/')
-      .then(results => {
-
-        let todos = results.data.filter(todo => !todo.completed)
-        let completed = results.data.filter(todo => todo.completed)
-
-        this.setState({todos: todos}, () => {
-          this.setState({completed: completed})
-        })
-      })
-      .catch(err => {
-        console.error('Could not retrieve todos.')
-      })
   }
 
   render() {
