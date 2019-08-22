@@ -15,7 +15,7 @@
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
-    "nodemon": "^1.19.1",
+    "node": "^12.8.1",
     "path": "^0.12.7",
     "react": "^16.8.6",
     "react-color": "^2.17.3",
@@ -25,10 +25,12 @@
     "webpack": "^4.39.1"
   },
   "devDependencies": {
+    "nodemon": "^1.19.1",
     "webpack-cli": "^3.3.6"
   },
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
+    "dev-server": "nodemon server/index.js",
     "dev-build": "webpack -d --watch",
     "build": "webpack -p"
   },

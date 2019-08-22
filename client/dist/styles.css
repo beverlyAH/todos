@@ -1,4 +1,16 @@
+.body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.media > * {
+  flex: 1 1 250px;
+}
+
 body {
+  display: flex;
+  flex: 1 1 250px;
+  flex-wrap: wrap;
   background-color: #94E89E;
   font-family: Quicksand, sans-serif;
   height: 100vh;
@@ -53,7 +65,7 @@ p {
   height: auto;
   background-color: #A6F3F4;
   padding: 10px;
-  position: relative;
+  /* position: relative; */
   margin-top: 25px;
   margin-right: auto;
   margin-left: auto;

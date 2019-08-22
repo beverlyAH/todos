@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
-import { BlockPicker } from 'react-color'
 import Item from './components/Item.jsx'
 import ColorSelector from './components/ColorSelector.jsx'
 import InputForm from './components/InputForm.jsx'
@@ -69,7 +68,6 @@ class Todo extends React.Component {
   markTodoIncomplete(id) {
     axios.put(`/todos/incomplete/${id}`)
       .then(results => {
-
         this.getTodos()
       })
       .catch(err => {
